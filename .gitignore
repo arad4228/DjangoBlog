@@ -130,3 +130,6 @@ dmypy.json
 
 # Pycham files
 .idea
+
+# Django files
+migrations/
