@@ -133,3 +133,6 @@ dmypy.json
 
 # Django files
 migrations/
+
+# Mac Tempfile
+.DS_Store
