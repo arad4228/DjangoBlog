@@ -19,6 +19,6 @@ from django.urls import path, include
 # 처리할 패턴을 넣기.
 
 urlpatterns = [
-    path('blog', include('blog.urls')),
+    path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
 ]
