@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 # 처리할 패턴을 넣기.
-
+# url 패턴들 목록 - 상위에 있을 수록 특별한 Case, 아래일수록 일반적인 Case
+# 위에서 부터 패턴 매칭을 하므로
 urlpatterns = [
     path('blog/', include('blog.urls')),
+    # include는 django.urls 라이브러리에 존재, import 해줘야 한다.
+    # 해당 패턴을 사용하는 것을 cunsume이라고 한다.
     path('admin/', admin.site.urls),
     path('', include('single_pages.urls')),
 ]
