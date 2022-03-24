@@ -136,3 +136,6 @@ migrations/
 
 # Mac Tempfile
 .DS_Store
+
+# User Contents
+_media
