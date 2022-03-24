@@ -1,3 +1,5 @@
+import os.path
+
 from django.db import models
 
 # Create your models here.
@@ -24,3 +26,7 @@ class Post(models.Model):
     # Convention Oever Configuration 이라는, 정해진 이름을 함수로 만들면, 일반적인 기능이 자동적으로 추가.
     def get_absolute_url(self):
         return f'/blog/{self.pk}/'
+
+    #파일의 이름만을 제공하는 함수
+    def get_file_name(self):
+        return os.path.basename(self.attached_file.name)

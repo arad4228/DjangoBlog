@@ -74,12 +74,22 @@
         <hr>
 
         <!-- Preview Image -->
-        <img class="img-fluid rounded" src="{{  post.head_image.url }}"alt="">
-
+      <!-- 이미지가 있다면 이미지 출력 그렇지 않으면 이미지가 랜덤으로 제공-->
+          {% if post.head_image %}
+            <img class="img-fluid rounded" src="{{  post.head_image.url }}"alt="">
+          {% else %}
+            <img class="card-img-top" src="https://picsum.photos/seed/{{ post.pk }}/800/200" alt="">
+          {% endif %}
         <hr>
 
         <!-- Post Content -->
         <p>{{ post.content }}</p>
+
+        {% if post.attached_file %}
+          <a href="{{ post.attached_file.url }}" type="button" class="btn btn-outline-dark" download>첨부 파일 다운로드</a>
+            {{ post.get_file_name }}
+        {% endif  %}
+
         <hr>
 
         <!-- Comments Form -->
