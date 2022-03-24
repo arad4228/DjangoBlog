@@ -119,4 +119,10 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+#해당 위치가 static 태그가 접근하는 위치
 STATIC_URL = '/static/'
+
+# User Media files
+MEDIA_URL = '/media/'
+# BASE_DIR은 프로젝트 베이스 디렉토리
+MEDIA_ROOT = os.path.join(BASE_DIR, '_media')

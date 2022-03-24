@@ -5,6 +5,9 @@ class Post(models.Model):
     title = models.CharField(max_length=30) # 제목
     content = models.TextField()            # 내용
 
+    head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
+    attached_file = models.FileField(upload_to='blog/files/%Y/%m/%d/', blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)  # 만든 날짜: auto_now_add는 최초 생성시에만 적용된다.
     updated_at = models.DateTimeField(auto_now=True)      # auto_now는 업데이트 될 때마다 적용된다.
     # author: 추후 작성 예정
