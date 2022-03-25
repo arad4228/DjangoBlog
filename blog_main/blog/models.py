@@ -5,6 +5,7 @@ from django.db import models
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=30) # 제목
+    hook_msg = models.TextField(blank=True)           # Hook 메시지
     content = models.TextField()            # 내용
 
     head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
