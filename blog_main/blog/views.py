@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
 # url 패턴에서 실행하는 함수
-from .models import Post, Category
+from .models import Post, Category, Tag
+
 
 # Class Based Views (CBV)
 class PostList(ListView):
@@ -34,6 +35,7 @@ def show_category_posts(request, slug):
     else :
         category = Category.objects.get(slug=slug)
         post_list = Post.objects.filter(category = category)
+
     context = {
         'Categories' :Category.objects.all(),
         'No_Categoriy_Post_count' : Post.objects.filter(category=None).count(),
@@ -41,6 +43,19 @@ def show_category_posts(request, slug):
         'post_list' : post_list
     }
     return render(request,'blog/post_list.html', context)
+
+def show_tag_posts(request, slug):
+    tag = Tag.objects.get(slug=slug)
+    post_list = tag.post_set.all()
+
+    context = {
+        'Categories': Category.objects.all(),
+        'No_Categoriy_Post_count': Post.objects.filter(category=None).count(),
+        'tag': tag,
+        'post_list': post_list
+    }
+    return render(request, 'blog/post_list.html', context)
+
 
 # 템플릿 이름을 강제하는 방법.
 # template_name = 'blog/index.html'
