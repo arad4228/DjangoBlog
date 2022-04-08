@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)                         # Max 길이를 50으로 설정, 값은 유니크하게 적용.
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)    # Max 길이는 200으로, 한글사용도 허용하고 값은 유니크하게 적용.
@@ -13,10 +12,14 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    # 어드민 페이지의 이름을 강제 변경
+    class Meta:
+        verbose_name_plural = 'Categories'
+
 class Post(models.Model):
-    title = models.CharField(max_length=30) # 제목
-    hook_msg = models.TextField(blank=True)           # Hook 메시지
-    content = models.TextField()            # 내용
+    title = models.CharField(max_length=30)             # 제목
+    hook_msg = models.TextField(blank=True)             # Hook 메시지
+    content = models.TextField()                        # 내용
 
     head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
     attached_file = models.FileField(upload_to='blog/files/%Y/%m/%d/', blank=True)
@@ -28,6 +31,7 @@ class Post(models.Model):
                                                                                 # Front,DB에서 값을 넣을 때 2번 확인한다.
                                                                                 # null=True는 DB에 해당한다.
                                                                                 # Front에서 확인 하는 경우는 Blank
+    Category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
 
     #method
     def __str__(self):
