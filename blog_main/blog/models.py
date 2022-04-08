@@ -5,7 +5,13 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)                         # Max 길이를 50으로 설정, 값은 유니크하게 적용.
+    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)    # Max 길이는 200으로, 한글사용도 허용하고 값은 유니크하게 적용.
+                                                                                # 주소는 slug, 이름은 name.
 
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
     title = models.CharField(max_length=30) # 제목
