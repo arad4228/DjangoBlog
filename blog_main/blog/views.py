@@ -5,15 +5,42 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
 # url 패턴에서 실행하는 함수
-from .models import Post
+from .models import Post, Category
 
 # Class Based Views (CBV)
 class PostList(ListView):
-    model = Post # 모델 객체 설정.
-    ordering = '-pk' # 정렬 방식 설정 = pk의 역순.
+    model = Post        # 모델 객체 설정.
+    ordering = '-pk'    # 정렬 방식 설정 = pk의 역순.
+
+    def get_context_data(self, object_list=None, **kwargs):
+        context = super(PostList, self).get_context_data()
+        context['Categories'] = Category.objects.all()
+        context['No_Categoriy_Post_count'] = Post.objects.filter(category=None).count()
+        return context
 
 class PostDetail(DetailView):
     model = Post
+
+    def get_context_data(self, object_list=None, **kwargs):
+        context = super(PostDetail, self).get_context_data()
+        context['Categories'] = Category.objects.all()
+        context['No_Categoriy_Post_count'] = Post.objects.filter(category=None).count()
+        return context
+
+def show_category_posts(request, slug):
+    if slug=='no-category' :  # 미분류 카테고리
+        category = '미분류'
+        post_list = Post.objects.filter(category=None)
+    else :
+        category = Category.objects.get(slug=slug)
+        post_list = Post.objects.filter(category = category)
+    context = {
+        'Categories' :Category.objects.all(),
+        'No_Categoriy_Post_count' : Post.objects.filter(category=None).count(),
+        'category' : category,
+        'post_list' : post_list
+    }
+    return render(request,'blog/post_list.html', context)
 
 # 템플릿 이름을 강제하는 방법.
 # template_name = 'blog/index.html'

@@ -5,7 +5,8 @@ from . import views
 urlpatterns = [
     # Class-based views(장고에서 제공하는 것)
     path('', views.PostList.as_view()),
-    path('<int:pk>/', views.PostDetail.as_view())
+    path('<int:pk>/', views.PostDetail.as_view()),
+    path('category/<str:slug>/', views.show_category_posts)
 
     # Function view(직접 제작)
     # path('', views.index),
