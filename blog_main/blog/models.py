@@ -40,7 +40,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # 만든 날짜: auto_now_add는 최초 생성시에만 적용된다.
     updated_at = models.DateTimeField(auto_now=True)      # auto_now는 업데이트 될 때마다 적용된다.
 
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)      # Call-Back 함수를 Set.(SET_NULL, ..)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)      # Call-Back 함수를 Set.(SET_NULL, ..)
                                                                                 # Front,DB에서 값을 넣을 때 2번 확인한다.
                                                                                 # null=True는 DB에 해당한다.
                                                                                 # Front에서 확인 하는 경우는 Blank

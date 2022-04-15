@@ -5,11 +5,22 @@
 {%  endblock %}
 
 {% block main_area %}
-                <h1>Blog {% if category %} in category ' {{ category }}' {% endif %}
-                {% if tag %} with tag '{{ tag }}' {%  endif %}
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
+            <a class="btn btn-info btn-sm float-right" href="/blog/create_post/" role="button">
+                <i class="fas fa-pen"></i>&nbsp;&nbsp;New Post</a>
+        {% endif %}
+    {% endif %}
+    <h1>Blog
+                    {% if category %}
+                        in category ' {{ category }}'
+                    {% endif %}
+                    {% if tag %}
+                        with tag '{{ tag }}'
+                    {%  endif %}
                 </h1>
 
-                {% for p in post_list %}
+    {% for p in post_list %}
                 <!-- Blog Post -->
                 <div class="card mb-4">
                     <!-- 이미지가 있다면 이미지 출력 그렇지 않으면 이미지가 랜덤으로 제공-->
@@ -45,7 +56,7 @@
 
 
                 <!-- Pagination -->
-                <ul class="pagination justify-content-center mb-4">
+    <ul class="pagination justify-content-center mb-4">
                     <li class="page-item">
                         <a class="page-link" href="#">&larr; Older</a>
                     </li>

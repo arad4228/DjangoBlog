@@ -1,12 +1,41 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, redirect
 # Create your views here.
 
 # CBV를 위한 라이브러리.
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 # url 패턴에서 실행하는 함수
 from .models import Post, Category, Tag
 
+# Post C,U Class Based Views (CBV)
+class PostCreate(LoginRequiredMixin, UserPassesTestMixin ,CreateView):
+    model = Post
+    fields = ['title', 'hook_msg','content','head_image','attached_file','category']
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def form_valid(self, form):
+        current_user = self.request.user
+        if current_user.is_authenticated:
+            form.instance.author = current_user
+            return super(PostCreate, self).form_valid(form)
+        else:
+            return redirect('/blog')
+
+class PostUpdate(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'hook_msg','content','head_image','attached_file','category', 'tags']
+
+    template_name = "blog/post_form_update.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(PostUpdate, self).dispatch(request,*args,**kwargs)
+        else:
+            raise PermissionDenied
 
 # Class Based Views (CBV)
 class PostList(ListView):
