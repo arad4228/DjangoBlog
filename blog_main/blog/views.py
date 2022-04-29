@@ -1,12 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 
 # CBV를 위한 라이브러리.
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 # url 패턴에서 실행하는 함수
+from .forms import CommentForm
 from .models import Post, Category, Tag
 
 
@@ -57,6 +58,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data()
         context['Categories'] = Category.objects.all()
         context['No_Categoriy_Post_count'] = Post.objects.filter(category=None).count()
+        context['comment_form'] = CommentForm
         return context
 
 def show_category_posts(request, slug):
@@ -87,6 +89,24 @@ def show_tag_posts(request, slug):
     }
     return render(request, 'blog/post_list.html', context)
 
+def addComment(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=pk)
+
+        if request.method == 'POST':
+            comment_Form = CommentForm(request.POST)
+            if comment_Form.is_valid():
+                # commit = false가 없으면 바로 DB에 저장된다.
+                comment = comment_Form.save(commit=False)
+                comment.post=post
+                comment.author = request.user
+                comment.save()
+                return redirect(comment.get_absolute_url())
+        else:
+            return redirect(post.get_absolute_url())
+    else:
+        raise PermissionDenied
+    return None
 
 # 템플릿 이름을 강제하는 방법.
 # template_name = 'blog/index.html'
