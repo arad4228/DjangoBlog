@@ -9,6 +9,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 # url 패턴에서 실행하는 함수
 from .models import Post, Category, Tag
 
+
+
 # Post C,U Class Based Views (CBV)
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin ,CreateView):
     model = Post

@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'single_pages'
+    'single_pages',
+    
+    'crispy_forms',
+    'markdownx'
 ]
 
 MIDDLEWARE = [
@@ -126,3 +129,4 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 # BASE_DIR은 프로젝트 베이스 디렉토리
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
