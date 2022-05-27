@@ -1,0 +1,7 @@
+---
+applications:
+- name: arad4228Blog
+  buildpack: python_buildpack
+  memory: 512M
+  instance: 1
+  command:  waitress-serve --port=8080 blog_main.wsgi:application
